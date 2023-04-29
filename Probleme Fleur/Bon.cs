@@ -22,6 +22,7 @@ namespace Probleme_Fleur
             box_nom.Visible = false;
             label_composition.Visible = false;
             label_composition.Visible = false;
+            label_prix.Visible = false;
             categories_dispo();
             
         }
@@ -112,6 +113,7 @@ namespace Probleme_Fleur
         {
             box_nom.SelectedIndex = -1;
             label_composition.Visible = false;
+            label_prix.Visible = false;
 
             if (box_catégorie.SelectedIndex != -1)
             {
@@ -138,7 +140,15 @@ namespace Probleme_Fleur
                 string compo = Commande($"select distinct(sorte) from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1].Replace(";", ", ");
                 label_composition.Text = "Composition : " + compo;
                 label_composition.Visible = true;
+                string prix = Commande($"select distinct prix from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1];
+                label_prix.Text = "Montant de la commande : "+prix+" €";
+                label_prix.Visible = true;
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

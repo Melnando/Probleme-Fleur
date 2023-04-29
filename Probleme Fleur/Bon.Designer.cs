@@ -47,6 +47,8 @@ namespace Probleme_Fleur
             this.label_composition = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.box_nom = new System.Windows.Forms.ComboBox();
+            this.label_prix = new System.Windows.Forms.Label();
+            this.validation = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -155,7 +157,7 @@ namespace Probleme_Fleur
             // 
             this.box_message.Location = new System.Drawing.Point(90, 292);
             this.box_message.Name = "box_message";
-            this.box_message.Size = new System.Drawing.Size(669, 74);
+            this.box_message.Size = new System.Drawing.Size(669, 62);
             this.box_message.TabIndex = 11;
             this.box_message.Text = "";
             // 
@@ -171,7 +173,7 @@ namespace Probleme_Fleur
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(90, 379);
+            this.label6.Location = new System.Drawing.Point(90, 357);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(124, 20);
             this.label6.TabIndex = 13;
@@ -179,7 +181,7 @@ namespace Probleme_Fleur
             // 
             // dateTimePicker1
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(90, 402);
+            this.dateTimePicker1.Location = new System.Drawing.Point(90, 380);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(250, 27);
             this.dateTimePicker1.TabIndex = 14;
@@ -197,7 +199,7 @@ namespace Probleme_Fleur
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.Color.Red;
-            this.label7.Location = new System.Drawing.Point(366, 407);
+            this.label7.Location = new System.Drawing.Point(90, 412);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(102, 20);
             this.label7.TabIndex = 16;
@@ -213,11 +215,34 @@ namespace Probleme_Fleur
             this.box_nom.Text = "Bouquet";
             this.box_nom.SelectedIndexChanged += new System.EventHandler(this.box_nom_SelectedIndexChanged);
             // 
+            // label_prix
+            // 
+            this.label_prix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_prix.AutoSize = true;
+            this.label_prix.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label_prix.Location = new System.Drawing.Point(512, 378);
+            this.label_prix.Name = "label_prix";
+            this.label_prix.Size = new System.Drawing.Size(247, 28);
+            this.label_prix.TabIndex = 18;
+            this.label_prix.Text = "Montant de la commande :";
+            this.label_prix.Click += new System.EventHandler(this.label8_Click);
+            // 
+            // validation
+            // 
+            this.validation.Location = new System.Drawing.Point(665, 409);
+            this.validation.Name = "validation";
+            this.validation.Size = new System.Drawing.Size(94, 29);
+            this.validation.TabIndex = 19;
+            this.validation.Text = "Valider";
+            this.validation.UseVisualStyleBackColor = true;
+            // 
             // Bon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.validation);
+            this.Controls.Add(this.label_prix);
             this.Controls.Add(this.box_nom);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label_composition);
@@ -263,5 +288,7 @@ namespace Probleme_Fleur
         private System.Windows.Forms.Label label_composition;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox box_nom;
+        private System.Windows.Forms.Label label_prix;
+        private System.Windows.Forms.Button validation;
     }
 }
