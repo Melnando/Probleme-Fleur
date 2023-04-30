@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Text.RegularExpressions;
 
 namespace Probleme_Fleur
 {
@@ -23,14 +24,33 @@ namespace Probleme_Fleur
             label_composition.Visible = false;
             label_composition.Visible = false;
             label_prix.Visible = false;
+            Avertissement.Visible = false;
+            box_budget.Visible = false;
+            label_budget.Visible = false;
             categories_dispo();
-            
+            dateTimePicker1.MinDate = DateTime.Today.AddDays(1);
+
+
+
+            if (box_adresse.Text != "" && box_zip.Text != "" && textBox1.Text == "")
+            {
+                erreuradresse.Visible = false;
+            }
+
+
+
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            
             choix_fleurs.Visible = false;
+            box_budget.Visible = false;
+            label_budget.Visible = false;
             box_catégorie.Visible = true;
+            erreurstandard.Visible = true;
+            erreurperso.Visible = false;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -38,11 +58,6 @@ namespace Probleme_Fleur
 
         }
 
-        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-
-        }
         public void fleurs_dispo()
         {
             string[] sortes_dispo = Commande("select sorte from stock where quantite > 0").Split(';');
@@ -90,10 +105,16 @@ namespace Probleme_Fleur
 
         private void Boutonpersonnalisee_CheckedChanged(object sender, EventArgs e)
         {
+            
             choix_fleurs.Visible = true;
             box_catégorie.Visible = false;
             box_nom.Visible = false;
             box_catégorie.SelectedIndex = -1;
+            box_budget.Visible = true;
+            label_budget.Visible = true;
+            erreurstandard.Visible = false;
+            erreurperso.Visible = true;
+
 
         }
         public void categories_dispo()
@@ -111,6 +132,7 @@ namespace Probleme_Fleur
 
         private void box_catégorie_SelectedIndexChanged(object sender, EventArgs e)
         {
+            erreurstandard.Visible = true;
             box_nom.SelectedIndex = -1;
             label_composition.Visible = false;
             label_prix.Visible = false;
@@ -140,6 +162,7 @@ namespace Probleme_Fleur
                 string compo = Commande($"select distinct(sorte) from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1].Replace(";", ", ");
                 label_composition.Text = "Composition : " + compo;
                 label_composition.Visible = true;
+                erreurstandard.Visible = false;
                 string prix = Commande($"select distinct prix from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1];
                 label_prix.Text = "Montant de la commande : "+prix+" €";
                 label_prix.Visible = true;
@@ -148,6 +171,107 @@ namespace Probleme_Fleur
 
         private void label8_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+            Avertissement.Visible = true;
+            DateTime dateChoisie = dateTimePicker1.Value;
+            if (dateChoisie <= DateTime.Today.AddDays(3) && dateChoisie >= DateTime.Today.AddDays(1))
+            {
+                Avertissement.Text = "Pour les commandes effectuées moins de 3 jours avant la date de livraison"+'\n'+"le client assume le risque de pénuerie";
+                
+            }
+            else
+            {
+                Avertissement.Visible = false;
+            }
+        }
+
+        private void box_zip_TextChanged(object sender, EventArgs e)
+        {
+            if (box_adresse.Text != "" && box_zip.Text != "" && textBox1.Text != "" && box_zip.Text.Length ==5)
+            {
+                erreuradresse.Visible = false;
+            }
+            else
+            {
+                erreuradresse.Visible = true;
+            }
+        }
+        private void box_zip_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Vérifie si le caractère saisi est un chiffre et si le texte ne dépasse pas 5 caractères
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                // Empêche la saisie du caractère en cours
+                e.Handled = true;
+            }
+        }
+
+        private void validation_Click(object sender, EventArgs e)
+        {
+            if(erreuradresse.Visible == true)
+            {
+                MessageBox.Show(erreuradresse.Text);
+            }
+            if(erreurperso.Visible == true)
+            {
+                MessageBox.Show(erreurperso.Text);
+            }
+            if(erreurstandard.Visible == true)
+            {
+                MessageBox.Show(erreurstandard.Text);
+            }
+            if (erreuradresse.Visible == false && erreurperso.Visible == false && erreurstandard.Visible == false)
+            {
+                MessageBox.Show("Commande validée");
+
+                ///enregistrement du bon de commande
+
+
+
+
+            }
+        }
+
+        private void choix_fleurs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (choix_fleurs.CheckedItems.Count == 0)
+            {
+                erreurperso.Visible = true;
+            }
+            else
+            {
+                erreurperso.Visible = false;
+            }
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (box_adresse.Text != "" && box_zip.Text != "" && textBox1.Text != "")
+            {
+                erreuradresse.Visible = false;
+            }
+            else
+            {
+                erreuradresse.Visible = true;
+            }
+        }
+
+        private void box_adresse_TextChanged(object sender, EventArgs e)
+        {
+            if (box_adresse.Text != "" && box_zip.Text != "" && textBox1.Text != "")
+            {
+                erreuradresse.Visible = false;
+            }
+            else
+            {
+                erreuradresse.Visible = true;
+            }
 
         }
     }

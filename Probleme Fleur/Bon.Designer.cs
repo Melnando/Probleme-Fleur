@@ -45,10 +45,16 @@ namespace Probleme_Fleur
             this.label6 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.label_composition = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.Avertissement = new System.Windows.Forms.Label();
             this.box_nom = new System.Windows.Forms.ComboBox();
             this.label_prix = new System.Windows.Forms.Label();
             this.validation = new System.Windows.Forms.Button();
+            this.box_budget = new System.Windows.Forms.NumericUpDown();
+            this.label_budget = new System.Windows.Forms.Label();
+            this.erreuradresse = new System.Windows.Forms.Label();
+            this.erreurstandard = new System.Windows.Forms.Label();
+            this.erreurperso = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.box_budget)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -97,12 +103,13 @@ namespace Probleme_Fleur
             // 
             // choix_fleurs
             // 
+            this.choix_fleurs.CheckOnClick = true;
             this.choix_fleurs.FormattingEnabled = true;
             this.choix_fleurs.Location = new System.Drawing.Point(468, 75);
             this.choix_fleurs.Name = "choix_fleurs";
             this.choix_fleurs.Size = new System.Drawing.Size(291, 114);
             this.choix_fleurs.TabIndex = 4;
-            this.choix_fleurs.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
+            this.choix_fleurs.SelectedIndexChanged += new System.EventHandler(this.choix_fleurs_SelectedIndexChanged);
             // 
             // box_adresse
             // 
@@ -110,6 +117,7 @@ namespace Probleme_Fleur
             this.box_adresse.Name = "box_adresse";
             this.box_adresse.Size = new System.Drawing.Size(342, 27);
             this.box_adresse.TabIndex = 5;
+            this.box_adresse.TextChanged += new System.EventHandler(this.box_adresse_TextChanged);
             // 
             // label2
             // 
@@ -126,6 +134,8 @@ namespace Probleme_Fleur
             this.box_zip.Name = "box_zip";
             this.box_zip.Size = new System.Drawing.Size(103, 27);
             this.box_zip.TabIndex = 7;
+            this.box_zip.TextChanged += new System.EventHandler(this.box_zip_TextChanged);
+            this.box_zip.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.box_zip_KeyPress);
             // 
             // label3
             // 
@@ -139,15 +149,16 @@ namespace Probleme_Fleur
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(634, 230);
+            this.textBox1.Location = new System.Drawing.Point(606, 230);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(125, 27);
+            this.textBox1.Size = new System.Drawing.Size(153, 27);
             this.textBox1.TabIndex = 9;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(631, 207);
+            this.label4.Location = new System.Drawing.Point(606, 207);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(38, 20);
             this.label4.TabIndex = 10;
@@ -182,9 +193,12 @@ namespace Probleme_Fleur
             // dateTimePicker1
             // 
             this.dateTimePicker1.Location = new System.Drawing.Point(90, 380);
+            this.dateTimePicker1.MinDate = new System.DateTime(2023, 4, 30, 0, 0, 0, 0);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(250, 27);
             this.dateTimePicker1.TabIndex = 14;
+            this.dateTimePicker1.Value = new System.DateTime(2023, 4, 30, 0, 0, 0, 0);
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
             // 
             // label_composition
             // 
@@ -195,15 +209,15 @@ namespace Probleme_Fleur
             this.label_composition.TabIndex = 15;
             this.label_composition.Text = "Composition";
             // 
-            // label7
+            // Avertissement
             // 
-            this.label7.AutoSize = true;
-            this.label7.ForeColor = System.Drawing.Color.Red;
-            this.label7.Location = new System.Drawing.Point(90, 412);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(102, 20);
-            this.label7.TabIndex = 16;
-            this.label7.Text = "Avertissement";
+            this.Avertissement.AutoSize = true;
+            this.Avertissement.ForeColor = System.Drawing.Color.Red;
+            this.Avertissement.Location = new System.Drawing.Point(90, 409);
+            this.Avertissement.Name = "Avertissement";
+            this.Avertissement.Size = new System.Drawing.Size(102, 20);
+            this.Avertissement.TabIndex = 16;
+            this.Avertissement.Text = "Avertissement";
             // 
             // box_nom
             // 
@@ -217,10 +231,10 @@ namespace Probleme_Fleur
             // 
             // label_prix
             // 
-            this.label_prix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_prix.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label_prix.AutoSize = true;
             this.label_prix.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label_prix.Location = new System.Drawing.Point(512, 378);
+            this.label_prix.Location = new System.Drawing.Point(268, 525);
             this.label_prix.Name = "label_prix";
             this.label_prix.Size = new System.Drawing.Size(247, 28);
             this.label_prix.TabIndex = 18;
@@ -229,22 +243,95 @@ namespace Probleme_Fleur
             // 
             // validation
             // 
-            this.validation.Location = new System.Drawing.Point(665, 409);
+            this.validation.Location = new System.Drawing.Point(338, 556);
             this.validation.Name = "validation";
             this.validation.Size = new System.Drawing.Size(94, 29);
             this.validation.TabIndex = 19;
             this.validation.Text = "Valider";
             this.validation.UseVisualStyleBackColor = true;
+            this.validation.Click += new System.EventHandler(this.validation_Click);
+            // 
+            // box_budget
+            // 
+            this.box_budget.DecimalPlaces = 2;
+            this.box_budget.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.box_budget.Location = new System.Drawing.Point(320, 479);
+            this.box_budget.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.box_budget.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.box_budget.Name = "box_budget";
+            this.box_budget.Size = new System.Drawing.Size(150, 27);
+            this.box_budget.TabIndex = 20;
+            this.box_budget.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label_budget
+            // 
+            this.label_budget.AutoSize = true;
+            this.label_budget.Location = new System.Drawing.Point(353, 456);
+            this.label_budget.Name = "label_budget";
+            this.label_budget.Size = new System.Drawing.Size(69, 20);
+            this.label_budget.TabIndex = 21;
+            this.label_budget.Text = "Budget €";
+            // 
+            // erreuradresse
+            // 
+            this.erreuradresse.AutoSize = true;
+            this.erreuradresse.ForeColor = System.Drawing.Color.Red;
+            this.erreuradresse.Location = new System.Drawing.Point(230, 207);
+            this.erreuradresse.Name = "erreuradresse";
+            this.erreuradresse.Size = new System.Drawing.Size(192, 20);
+            this.erreuradresse.TabIndex = 23;
+            this.erreuradresse.Text = "Saisissez une adresse valide";
+            // 
+            // erreurstandard
+            // 
+            this.erreurstandard.AutoSize = true;
+            this.erreurstandard.ForeColor = System.Drawing.Color.Red;
+            this.erreurstandard.Location = new System.Drawing.Point(230, 47);
+            this.erreurstandard.Name = "erreurstandard";
+            this.erreurstandard.Size = new System.Drawing.Size(156, 20);
+            this.erreurstandard.TabIndex = 24;
+            this.erreurstandard.Text = "Choisissez un bouquet";
+            // 
+            // erreurperso
+            // 
+            this.erreurperso.AutoSize = true;
+            this.erreurperso.ForeColor = System.Drawing.Color.Red;
+            this.erreurperso.Location = new System.Drawing.Point(669, 47);
+            this.erreurperso.Name = "erreurperso";
+            this.erreurperso.Size = new System.Drawing.Size(142, 20);
+            this.erreurperso.TabIndex = 25;
+            this.erreurperso.Text = "Aucune fleur choisie";
             // 
             // Bon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(821, 615);
+            this.Controls.Add(this.erreurperso);
+            this.Controls.Add(this.erreurstandard);
+            this.Controls.Add(this.erreuradresse);
+            this.Controls.Add(this.label_budget);
+            this.Controls.Add(this.box_budget);
             this.Controls.Add(this.validation);
             this.Controls.Add(this.label_prix);
             this.Controls.Add(this.box_nom);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.Avertissement);
             this.Controls.Add(this.label_composition);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label6);
@@ -263,6 +350,7 @@ namespace Probleme_Fleur
             this.Controls.Add(this.label1);
             this.Name = "Bon";
             this.Text = "Bon";
+            ((System.ComponentModel.ISupportInitialize)(this.box_budget)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -286,9 +374,14 @@ namespace Probleme_Fleur
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.Label label_composition;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label Avertissement;
         private System.Windows.Forms.ComboBox box_nom;
         private System.Windows.Forms.Label label_prix;
         private System.Windows.Forms.Button validation;
+        private System.Windows.Forms.NumericUpDown box_budget;
+        private System.Windows.Forms.Label label_budget;
+        private System.Windows.Forms.Label erreuradresse;
+        private System.Windows.Forms.Label erreurstandard;
+        private System.Windows.Forms.Label erreurperso;
     }
 }
