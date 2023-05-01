@@ -41,6 +41,7 @@ namespace Probleme_Fleur
 
 
         }
+        
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -60,7 +61,7 @@ namespace Probleme_Fleur
 
         public void fleurs_dispo()
         {
-            string[] sortes_dispo = Commande("select sorte from stock where quantite > 0").Split(';');
+            string[] sortes_dispo = Commande("select sorte from stock").Split(';'); /// where quantite > 0
             foreach (string sorte in sortes_dispo)
             {
                 if (sorte != "")
@@ -119,8 +120,8 @@ namespace Probleme_Fleur
         }
         public void categories_dispo()
         {
-            string[] categoriesreq = Commande("select distinct categorie from bouquet inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0").Split(';');
-            foreach(string categorie in categoriesreq)
+            string[] categoriesreq = Commande("select distinct categorie from bouquet").Split(';'); /// inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0
+            foreach (string categorie in categoriesreq)
             {
                 if (categorie != "")
                 {
@@ -209,7 +210,7 @@ namespace Probleme_Fleur
                 e.Handled = true;
             }
         }
-
+        private Page_connexion pg_connexion;
         private void validation_Click(object sender, EventArgs e)
         {
             if(erreuradresse.Visible == true)
@@ -229,7 +230,24 @@ namespace Probleme_Fleur
                 MessageBox.Show("Commande validée");
 
                 ///enregistrement du bon de commande
+                ///commande standard
+                if (boutonstandard.Checked == true)
+                {
+                    string adresse_livraison = box_adresse.Text + " " + box_zip.Text + " " + textBox1.Text;
+                    string message = null;
+                    if (box_message.Text == "")
+                    {
+                        message = box_message.Text;
+                    }
+                    string date_livraison = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+                    string date_commande = DateTime.Today.ToString("dd/MM/yyyy");
+                    string etat = "VINV";
+                    string No_client = Commande($"select no_client from client where couriel = '{pg_connexion.ID_mail}'");
 
+
+                    
+                    
+                }
 
 
 
