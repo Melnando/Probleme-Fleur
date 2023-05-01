@@ -120,7 +120,7 @@ namespace Probleme_Fleur
         }
         public void categories_dispo()
         {
-            string[] categoriesreq = Commande("select distinct categorie from bouquet").Split(';'); /// inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0
+            string[] categoriesreq = Commande("select distinct categorie from bouquet").Split(';'); /// inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0 pas utile -> vérification par les employés
             foreach (string categorie in categoriesreq)
             {
                 if (categorie != "")
@@ -210,7 +210,7 @@ namespace Probleme_Fleur
                 e.Handled = true;
             }
         }
-        private Page_connexion pg_connexion;
+        public string ID_mail { get; set; }
         private void validation_Click(object sender, EventArgs e)
         {
             if(erreuradresse.Visible == true)
@@ -230,24 +230,75 @@ namespace Probleme_Fleur
                 MessageBox.Show("Commande validée");
 
                 ///enregistrement du bon de commande
+                
+                string adresse_livraison = box_adresse.Text + " " + box_zip.Text + " " + textBox1.Text;
+                string message = null;
+                if (box_message.Text != "")
+                {
+                    message = box_message.Text;
+                }
+                string date_livraison = dateTimePicker1.Value.ToString("dd/MM/yyyy");
+                string date_commande = DateTime.Today.ToString("dd/MM/yyyy");
+                string etat = "VINV";
+                string mail = ID_mail;
+                string no_client = Commande($"select no_client from client where couriel = '{mail}'")[0..^1];
+                string nb_commande = Convert.ToInt32(Commande($"select count(*) from commande").Split(';')[0]).ToString("D6");
+                string no_commande = "BO" + nb_commande;
+                Commande("insert into commande (montant, no_commande ,adresse_livraison ,message ,date_livraison,date_commande,etat,no_client) " +
+                    $"values (null,'{no_commande}','{adresse_livraison}' ,'{message}' ,'{date_livraison}','{date_commande}','{etat}','{no_client}')");
+
                 ///commande standard
+
                 if (boutonstandard.Checked == true)
                 {
-                    string adresse_livraison = box_adresse.Text + " " + box_zip.Text + " " + textBox1.Text;
-                    string message = null;
-                    if (box_message.Text == "")
+                    
+                    /// Création du bouquet pour le designer
+                    string bouquetselec = box_nom.SelectedItem.ToString();
+                    string[] compo = Commande($"select distinct(sorte) from bouquet where nom_bouquet = '{bouquetselec}';").Split(';');
+                    string categorie = Commande($"select distinct categorie from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1];
+                    string prix = Commande($"select distinct prix from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1];
+                    string no_bouquet = no_commande;
+                    int i = 0;
+                    foreach(string sorte in compo)
                     {
-                        message = box_message.Text;
+                        
+                        if(sorte != "")
+                        {
+                            no_bouquet += i.ToString("00");
+                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {prix}, null, '{sorte}');");
+                            i++;
+                        }
                     }
-                    string date_livraison = dateTimePicker1.Value.ToString("dd/MM/yyyy");
-                    string date_commande = DateTime.Today.ToString("dd/MM/yyyy");
-                    string etat = "VINV";
-                    string No_client = Commande($"select no_client from client where couriel = '{pg_connexion.ID_mail}'");
-
-
-                    
-                    
                 }
+                ///Commande personnalisée
+                else
+                {
+                    /// Création du bouquet pour le designer
+                    string bouquetselec = null;
+                    string[] compo = choix_fleurs.CheckedItems.Cast<string>().ToArray();
+                    string categorie = "personalisée";
+                    string prix = box_budget.Value.ToString();
+                    string no_bouquet = no_commande;
+                    int i = 0;
+                    foreach (string sorte in compo)
+                    {
+
+                        if (sorte != "")
+                        {
+                            no_bouquet += i.ToString("00");
+                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {prix}, null, '{sorte}');");
+                            i++;
+                        }
+                    }
+                }
+
+                /* éventuellement
+                foreach (Form form in Application.OpenForms)
+                {
+                    form.Close();
+                }
+                */
+
 
 
 

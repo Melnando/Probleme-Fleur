@@ -55,18 +55,19 @@ namespace Probleme_Fleur
         {
 
         }
-        public string ID_mail;
-        private void validateur_Click(object sender, EventArgs e)
+        public string ID_mail { get; set; }
+    private void validateur_Click(object sender, EventArgs e)
         {
-            ID_mail = box_mail.Text;
-            string verif = Commande($"SELECT COUNT(*) FROM client WHERE couriel = '{ID_mail}'");
+            string mail = box_mail.Text;
+            string verif = Commande($"SELECT COUNT(*) FROM client WHERE couriel = '{mail}'");
             if (Convert.ToInt32(verif.Split(';')[0]) != 0)
             {
-                string requetemdp = Commande($"SELECT mdp FROM client WHERE couriel = '{ID_mail}'").Split(';')[0];
+                string requetemdp = Commande($"SELECT mdp FROM client WHERE couriel = '{mail}'").Split(';')[0];
                 if (requetemdp == box_mdp.Text)
                 {
                     this.Hide();
                     Bon formulaire = new Bon();
+                    formulaire.ID_mail = box_mail.Text;
                     formulaire.Show();
                     
                 }
