@@ -165,6 +165,20 @@ namespace Probleme_Fleur
                 label_composition.Visible = true;
                 erreurstandard.Visible = false;
                 string prix = Commande($"select distinct prix from bouquet where nom_bouquet = '{bouquetselec}';")[0..^1];
+                string mail = ID_mail;
+                string no_client = Commande($"select no_client from client where couriel = '{mail}'")[0..^1];
+                string statut = Commande($"select statut from client where no_client = '{no_client}'")[0..^1];
+                if(statut == "bronze")
+                {
+                    double prixd = Convert.ToDouble(prix);
+                    prix = Convert.ToString(Math.Round(prixd* 0.95,2));
+
+                }
+                else if(statut == "or")
+                {
+                    double prixd = Convert.ToDouble(prix);
+                    prix = Convert.ToString(Math.Round(prixd * 0.85,2));
+                }
                 label_prix.Text = "Montant de la commande : "+prix+" €";
                 label_prix.Visible = true;
             }
@@ -278,6 +292,19 @@ namespace Probleme_Fleur
                     string[] compo = choix_fleurs.CheckedItems.Cast<string>().ToArray();
                     string categorie = "personalisée";
                     string prix = box_budget.Value.ToString();
+                    string statut = Commande($"select statut from client where no_client = '{no_client}'")[0..^1];
+                    if (statut == "bronze")
+                    {
+                        double prixd = Convert.ToDouble(prix);
+                        prix = Convert.ToString(Math.Round(prixd*1.05,2));
+
+                    }
+                    else if (statut == "or")
+                    {
+                        double prixd = Convert.ToDouble(prix);
+                        prix = Convert.ToString(Math.Round(prixd * 1.15,2));
+                    }
+
                     string no_bouquet = no_commande;
                     int i = 0;
                     foreach (string sorte in compo)
@@ -290,7 +317,24 @@ namespace Probleme_Fleur
                             i++;
                         }
                     }
+
                 }
+                string[] alldatescommande = Commande($"select date_commande from commande where no_client = '{no_client}';").Split(';');
+                DateTime[] dates = Array.ConvertAll(alldatescommande[0..^1], s => DateTime.Parse(s));
+                DateTime mindate = dates.Min();
+                DateTime maxdate = dates.Max();
+                int nombreDeMois = (maxdate.Month - mindate.Month) + 12 * (maxdate.Year - mindate.Year);
+                float nb_commande_mois = alldatescommande.Length - 1;
+                if (nb_commande_mois/nombreDeMois >= 1 && nb_commande_mois / nombreDeMois <5)
+                {
+                    Commande($"UPDATE client SET statut = 'bronze' WHERE no_client = '{no_client}';");
+                }
+                else if(nb_commande_mois / nombreDeMois >= 5)
+                {
+                    Commande($"UPDATE client SET statut = 'or' WHERE no_client = '{no_client}';");
+                }
+
+
 
                 /* éventuellement
                 foreach (Form form in Application.OpenForms)
