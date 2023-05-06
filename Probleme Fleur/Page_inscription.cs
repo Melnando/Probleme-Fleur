@@ -36,11 +36,7 @@ namespace Probleme_Fleur
 
         private void Inscription_Click(object sender, EventArgs e)
         {
-
-            
-
-
-            
+          
             string nom = Convert.ToString(box_nom.Text);
 
             string prenom = Convert.ToString(box_prenom.Text);
@@ -80,11 +76,6 @@ namespace Probleme_Fleur
                 erreurnom.Visible = true;
             }
             else erreurnom.Visible = false;
-        }
-
-        private void Page_inscription_Load(object sender, EventArgs e)
-        {
-
         }
 
         static void Inscription_BDD(string nom, string prenom, string tel, string mdp, string adresse, string CB, string mail)
@@ -131,7 +122,6 @@ namespace Probleme_Fleur
             string noclient = "C" + Convert.ToString(Convert.ToInt32(nbclient[0])+1);
             return noclient;
         }
-
         private void box_prenom_TextChanged(object sender, EventArgs e)
         {
             string prenom = box_prenom.Text;
@@ -171,12 +161,6 @@ namespace Probleme_Fleur
                 erreurmdp.Visible = true;
             }
             else erreurmdp.Visible = false;
-        }
-
-        private void box_adresse_TextChanged(object sender, EventArgs e)
-        {
-
-
         }
 
         private void box_CB_TextChanged(object sender, EventArgs e)

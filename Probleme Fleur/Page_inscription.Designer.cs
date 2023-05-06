@@ -79,7 +79,7 @@ namespace Probleme_Fleur
             // 
             // box_mail
             // 
-            this.box_mail.Location = new System.Drawing.Point(341, 210);
+            this.box_mail.Location = new System.Drawing.Point(341, 214);
             this.box_mail.Name = "box_mail";
             this.box_mail.Size = new System.Drawing.Size(125, 27);
             this.box_mail.TabIndex = 3;
@@ -88,7 +88,7 @@ namespace Probleme_Fleur
             // box_mdp
             // 
             this.box_mdp.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.box_mdp.Location = new System.Drawing.Point(341, 256);
+            this.box_mdp.Location = new System.Drawing.Point(340, 275);
             this.box_mdp.Name = "box_mdp";
             this.box_mdp.Size = new System.Drawing.Size(125, 27);
             this.box_mdp.TabIndex = 4;
@@ -96,15 +96,14 @@ namespace Probleme_Fleur
             // 
             // box_adresse
             // 
-            this.box_adresse.Location = new System.Drawing.Point(341, 303);
+            this.box_adresse.Location = new System.Drawing.Point(340, 337);
             this.box_adresse.Name = "box_adresse";
             this.box_adresse.Size = new System.Drawing.Size(125, 27);
             this.box_adresse.TabIndex = 5;
-            this.box_adresse.TextChanged += new System.EventHandler(this.box_adresse_TextChanged);
             // 
             // box_CB
             // 
-            this.box_CB.Location = new System.Drawing.Point(341, 353);
+            this.box_CB.Location = new System.Drawing.Point(341, 400);
             this.box_CB.Name = "box_CB";
             this.box_CB.Size = new System.Drawing.Size(125, 27);
             this.box_CB.TabIndex = 6;
@@ -112,7 +111,7 @@ namespace Probleme_Fleur
             // 
             // Inscription
             // 
-            this.Inscription.Location = new System.Drawing.Point(356, 397);
+            this.Inscription.Location = new System.Drawing.Point(354, 445);
             this.Inscription.Name = "Inscription";
             this.Inscription.Size = new System.Drawing.Size(94, 29);
             this.Inscription.TabIndex = 7;
@@ -123,7 +122,7 @@ namespace Probleme_Fleur
             // CB
             // 
             this.CB.AutoSize = true;
-            this.CB.Location = new System.Drawing.Point(341, 333);
+            this.CB.Location = new System.Drawing.Point(341, 377);
             this.CB.Name = "CB";
             this.CB.Size = new System.Drawing.Size(103, 20);
             this.CB.TabIndex = 8;
@@ -132,16 +131,16 @@ namespace Probleme_Fleur
             // adresse
             // 
             this.adresse.AutoSize = true;
-            this.adresse.Location = new System.Drawing.Point(341, 286);
+            this.adresse.Location = new System.Drawing.Point(340, 314);
             this.adresse.Name = "adresse";
-            this.adresse.Size = new System.Drawing.Size(139, 20);
+            this.adresse.Size = new System.Drawing.Size(156, 20);
             this.adresse.TabIndex = 9;
-            this.adresse.Text = "adresse de livraison";
+            this.adresse.Text = "adresse de facturation";
             // 
             // mdp
             // 
             this.mdp.AutoSize = true;
-            this.mdp.Location = new System.Drawing.Point(341, 240);
+            this.mdp.Location = new System.Drawing.Point(341, 252);
             this.mdp.Name = "mdp";
             this.mdp.Size = new System.Drawing.Size(98, 20);
             this.mdp.TabIndex = 10;
@@ -241,7 +240,7 @@ namespace Probleme_Fleur
             // 
             this.erreurmdp.AutoSize = true;
             this.erreurmdp.ForeColor = System.Drawing.Color.Red;
-            this.erreurmdp.Location = new System.Drawing.Point(470, 258);
+            this.erreurmdp.Location = new System.Drawing.Point(470, 278);
             this.erreurmdp.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.erreurmdp.Name = "erreurmdp";
             this.erreurmdp.Size = new System.Drawing.Size(116, 20);
@@ -252,7 +251,7 @@ namespace Probleme_Fleur
             // 
             this.erreurCB.AutoSize = true;
             this.erreurCB.ForeColor = System.Drawing.Color.Red;
-            this.erreurCB.Location = new System.Drawing.Point(470, 353);
+            this.erreurCB.Location = new System.Drawing.Point(470, 400);
             this.erreurCB.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.erreurCB.Name = "erreurCB";
             this.erreurCB.Size = new System.Drawing.Size(116, 20);
@@ -263,7 +262,7 @@ namespace Probleme_Fleur
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(800, 517);
             this.Controls.Add(this.erreurCB);
             this.Controls.Add(this.erreurmdp);
             this.Controls.Add(this.erreurmail);
@@ -288,7 +287,6 @@ namespace Probleme_Fleur
             this.Controls.Add(this.box_nom);
             this.Name = "Page_inscription";
             this.Text = "Form2";
-            this.Load += new System.EventHandler(this.Page_inscription_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

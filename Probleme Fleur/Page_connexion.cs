@@ -25,6 +25,9 @@ namespace Probleme_Fleur
             validateur.Visible = false;
             erreurmail.Visible = false;
             erreurmdp.Visible = false;
+            mdp_admin.Visible = false;
+            statistiques.Visible = false;
+            etat_cmd.Visible = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -34,13 +37,20 @@ namespace Probleme_Fleur
 
         private void button1_Click(object sender, EventArgs e)
         {
+            mdp_admin.Visible = false;
             Page_inscription formulaire = new Page_inscription();
             formulaire.Show();
-           
+
+
+            
+
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            statistiques.Visible = false;
+            etat_cmd.Visible = false;
+            mdp_admin.Visible = false;
             box_mail.Visible = true;
             box_mdp.Visible = true;
             couriel.Visible = true;
@@ -109,12 +119,45 @@ namespace Probleme_Fleur
 
         private void box_mail_TextChanged(object sender, EventArgs e)
         {
+            statistiques.Visible = false;
+            etat_cmd.Visible = false;
+            mdp_admin.Visible = false;
             erreurmail.Visible = false;
         }
 
         private void box_mdp_TextChanged(object sender, EventArgs e)
         {
+            statistiques.Visible = false;
+            etat_cmd.Visible = false;
+            mdp_admin.Visible = false;
             erreurmdp.Visible = false;
+        }
+
+        private void Admin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            mdp_admin.Visible = true;
+
+        }
+        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter && mdp_admin.Text == "admin")
+            {
+                statistiques.Visible = true;
+                etat_cmd.Visible = true;
+                
+            }
+        }
+
+        private void statistiques_Click(object sender, EventArgs e)
+        {
+            Page_Statistiques stats = new Page_Statistiques();
+            stats.Show();
+        }
+
+        private void etat_cmd_Click(object sender, EventArgs e)
+        {
+            Etat_commandes etat_Commandes = new Etat_commandes();
+            etat_Commandes.Show();
         }
     }
 }

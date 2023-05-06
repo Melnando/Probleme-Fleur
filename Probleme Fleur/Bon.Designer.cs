@@ -54,6 +54,7 @@ namespace Probleme_Fleur
             this.erreuradresse = new System.Windows.Forms.Label();
             this.erreurstandard = new System.Windows.Forms.Label();
             this.erreurperso = new System.Windows.Forms.Label();
+            this.deco = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.box_budget)).BeginInit();
             this.SuspendLayout();
             // 
@@ -318,11 +319,23 @@ namespace Probleme_Fleur
             this.erreurperso.TabIndex = 25;
             this.erreurperso.Text = "Aucune fleur choisie";
             // 
+            // deco
+            // 
+            this.deco.AutoSize = true;
+            this.deco.Location = new System.Drawing.Point(700, 9);
+            this.deco.Name = "deco";
+            this.deco.Size = new System.Drawing.Size(111, 20);
+            this.deco.TabIndex = 26;
+            this.deco.TabStop = true;
+            this.deco.Text = "Se déconnecter";
+            this.deco.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.deco_LinkClicked);
+            // 
             // Bon
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(821, 615);
+            this.Controls.Add(this.deco);
             this.Controls.Add(this.erreurperso);
             this.Controls.Add(this.erreurstandard);
             this.Controls.Add(this.erreuradresse);
@@ -383,5 +396,6 @@ namespace Probleme_Fleur
         private System.Windows.Forms.Label erreuradresse;
         private System.Windows.Forms.Label erreurstandard;
         private System.Windows.Forms.Label erreurperso;
+        private System.Windows.Forms.LinkLabel deco;
     }
 }

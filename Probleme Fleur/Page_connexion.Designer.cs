@@ -38,6 +38,10 @@ namespace Probleme_Fleur
             this.validateur = new System.Windows.Forms.Button();
             this.erreurmail = new System.Windows.Forms.Label();
             this.erreurmdp = new System.Windows.Forms.Label();
+            this.Admin = new System.Windows.Forms.LinkLabel();
+            this.mdp_admin = new System.Windows.Forms.TextBox();
+            this.statistiques = new System.Windows.Forms.Button();
+            this.etat_cmd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Inscription
@@ -125,11 +129,54 @@ namespace Probleme_Fleur
             this.erreurmdp.TabIndex = 8;
             this.erreurmdp.Text = "Mot de passe incorrect";
             // 
+            // Admin
+            // 
+            this.Admin.AutoSize = true;
+            this.Admin.Location = new System.Drawing.Point(12, 9);
+            this.Admin.Name = "Admin";
+            this.Admin.Size = new System.Drawing.Size(158, 20);
+            this.Admin.TabIndex = 9;
+            this.Admin.TabStop = true;
+            this.Admin.Text = "Session administrateur";
+            this.Admin.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.Admin_LinkClicked);
+            // 
+            // mdp_admin
+            // 
+            this.mdp_admin.Location = new System.Drawing.Point(12, 32);
+            this.mdp_admin.Name = "mdp_admin";
+            this.mdp_admin.Size = new System.Drawing.Size(158, 27);
+            this.mdp_admin.TabIndex = 10;
+            this.mdp_admin.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            // 
+            // statistiques
+            // 
+            this.statistiques.Location = new System.Drawing.Point(12, 65);
+            this.statistiques.Name = "statistiques";
+            this.statistiques.Size = new System.Drawing.Size(158, 30);
+            this.statistiques.TabIndex = 11;
+            this.statistiques.Text = "Statistiques";
+            this.statistiques.UseVisualStyleBackColor = true;
+            this.statistiques.Click += new System.EventHandler(this.statistiques_Click);
+            // 
+            // etat_cmd
+            // 
+            this.etat_cmd.Location = new System.Drawing.Point(12, 101);
+            this.etat_cmd.Name = "etat_cmd";
+            this.etat_cmd.Size = new System.Drawing.Size(158, 29);
+            this.etat_cmd.TabIndex = 12;
+            this.etat_cmd.Text = "Etat des commandes";
+            this.etat_cmd.UseVisualStyleBackColor = true;
+            this.etat_cmd.Click += new System.EventHandler(this.etat_cmd_Click);
+            // 
             // Page_connexion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.etat_cmd);
+            this.Controls.Add(this.statistiques);
+            this.Controls.Add(this.mdp_admin);
+            this.Controls.Add(this.Admin);
             this.Controls.Add(this.erreurmdp);
             this.Controls.Add(this.erreurmail);
             this.Controls.Add(this.validateur);
@@ -158,6 +205,10 @@ namespace Probleme_Fleur
         private System.Windows.Forms.Button validateur;
         private System.Windows.Forms.Label erreurmail;
         private System.Windows.Forms.Label erreurmdp;
+        private System.Windows.Forms.LinkLabel Admin;
+        private System.Windows.Forms.TextBox mdp_admin;
+        private System.Windows.Forms.Button statistiques;
+        private System.Windows.Forms.Button etat_cmd;
     }
 }
 

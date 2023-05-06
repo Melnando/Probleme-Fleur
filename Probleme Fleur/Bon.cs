@@ -120,7 +120,7 @@ namespace Probleme_Fleur
         }
         public void categories_dispo()
         {
-            string[] categoriesreq = Commande("select distinct categorie from bouquet").Split(';'); /// inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0 pas utile -> vérification par les employés
+            string[] categoriesreq = Commande("select distinct categorie from bouquet where categorie != 'personnalisée'").Split(';'); /// inner join stock on bouquet.sorte = stock.sorte where stock.quantite > 0 pas utile -> vérification par les employés
             foreach (string categorie in categoriesreq)
             {
                 if (categorie != "")
@@ -254,6 +254,10 @@ namespace Probleme_Fleur
                 string date_livraison = dateTimePicker1.Value.ToString("dd/MM/yyyy");
                 string date_commande = DateTime.Today.ToString("dd/MM/yyyy");
                 string etat = "VINV";
+                if (Boutonpersonnalisee.Checked == true)
+                {
+                    etat = "CPAV";
+                }               
                 string mail = ID_mail;
                 string no_client = Commande($"select no_client from client where couriel = '{mail}'")[0..^1];
                 string nb_commande = Convert.ToInt32(Commande($"select count(*) from commande").Split(';')[0]).ToString("D6");
@@ -279,18 +283,20 @@ namespace Probleme_Fleur
                         if(sorte != "")
                         {
                             no_bouquet += i.ToString("00");
-                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {prix}, null, '{sorte}');");
+                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {Convert.ToString(prix).Replace(',', '.')}, null, '{sorte}');");
                             i++;
                         }
                     }
+                    Commande($"UPDATE commande SET montant = {Convert.ToString(prix).Replace(',', '.')} WHERE no_commande = '{no_commande}';");
                 }
+
                 ///Commande personnalisée
                 else
                 {
                     /// Création du bouquet pour le designer
                     string bouquetselec = null;
                     string[] compo = choix_fleurs.CheckedItems.Cast<string>().ToArray();
-                    string categorie = "personalisée";
+                    string categorie = "personnalisée";
                     string prix = box_budget.Value.ToString();
                     string statut = Commande($"select statut from client where no_client = '{no_client}'")[0..^1];
                     if (statut == "bronze")
@@ -304,6 +310,7 @@ namespace Probleme_Fleur
                         double prixd = Convert.ToDouble(prix);
                         prix = Convert.ToString(Math.Round(prixd * 1.15,2));
                     }
+                    
 
                     string no_bouquet = no_commande;
                     int i = 0;
@@ -313,10 +320,11 @@ namespace Probleme_Fleur
                         if (sorte != "")
                         {
                             no_bouquet += i.ToString("00");
-                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {prix}, null, '{sorte}');");
+                            Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {Convert.ToString(prix).Replace(',', '.')}, null, '{sorte}');");
                             i++;
                         }
                     }
+                    Commande($"UPDATE commande SET montant = {Convert.ToString(prix).Replace(',', '.')} WHERE no_commande = '{no_commande}';");
 
                 }
                 string[] alldatescommande = Commande($"select date_commande from commande where no_client = '{no_client}';").Split(';');
@@ -386,6 +394,13 @@ namespace Probleme_Fleur
                 erreuradresse.Visible = true;
             }
 
+        }
+
+        private void deco_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.Hide();
+            Page_connexion formulaire = new Page_connexion();
+            formulaire.Show();
         }
     }
 }
