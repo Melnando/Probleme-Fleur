@@ -57,7 +57,7 @@ namespace Probleme_Fleur
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.Location = new System.Drawing.Point(1, 154);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(787, 24);
+            this.label1.Size = new System.Drawing.Size(787, 51);
             this.label1.TabIndex = 2;
             this.label1.Text = "label1";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

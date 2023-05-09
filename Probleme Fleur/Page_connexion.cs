@@ -16,7 +16,7 @@ namespace Probleme_Fleur
         public Page_connexion()
         {
             InitializeComponent();
-
+            ///mise en page initiale
 
             box_mail.Visible = false;
             box_mdp.Visible = false;
@@ -28,6 +28,13 @@ namespace Probleme_Fleur
             mdp_admin.Visible = false;
             statistiques.Visible = false;
             etat_cmd.Visible = false;
+            box_lieu.Visible = true;
+            designer.Visible = false;
+            pageclient.Visible = false;
+
+            box_lieu.Items.Add("M1");
+            box_lieu.Items.Add("M2");
+            box_lieu.Items.Add("M3");
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -48,6 +55,7 @@ namespace Probleme_Fleur
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            designer.Visible = false;
             statistiques.Visible = false;
             etat_cmd.Visible = false;
             mdp_admin.Visible = false;
@@ -56,6 +64,7 @@ namespace Probleme_Fleur
             couriel.Visible = true;
             mdp.Visible = true;
             validateur.Visible = true;
+            pageclient.Visible = false;
             
 
 
@@ -66,7 +75,8 @@ namespace Probleme_Fleur
 
         }
         public string ID_mail { get; set; }
-    private void validateur_Click(object sender, EventArgs e)
+        public string Magasin { get; set; }
+        private void validateur_Click(object sender, EventArgs e)
         {
             string mail = box_mail.Text;
             string verif = Commande($"SELECT COUNT(*) FROM client WHERE couriel = '{mail}'");
@@ -78,6 +88,8 @@ namespace Probleme_Fleur
                     this.Hide();
                     Bon formulaire = new Bon();
                     formulaire.ID_mail = box_mail.Text;
+                    string magasin = Lieu.Text;
+                    formulaire.Magasin = Lieu.Text;
                     formulaire.Show();
                     
                 }
@@ -119,45 +131,70 @@ namespace Probleme_Fleur
 
         private void box_mail_TextChanged(object sender, EventArgs e)
         {
+            ///mise en page client
             statistiques.Visible = false;
             etat_cmd.Visible = false;
             mdp_admin.Visible = false;
             erreurmail.Visible = false;
+            designer.Visible = false;
+            pageclient.Visible = false;
         }
 
         private void box_mdp_TextChanged(object sender, EventArgs e)
         {
+            /// mise en page client
             statistiques.Visible = false;
             etat_cmd.Visible = false;
             mdp_admin.Visible = false;
             erreurmdp.Visible = false;
+            designer.Visible = false;
+            pageclient.Visible = false;
         }
 
         private void Admin_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            /// pour entrer en session admin
             mdp_admin.Visible = true;
 
         }
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter && mdp_admin.Text == "admin")
+            if (e.KeyChar == (char)Keys.Enter && mdp_admin.Text == "admin") /// en entrant le mdp admin et en pressant entrer on accède aux fonctionnalités admin
             {
                 statistiques.Visible = true;
                 etat_cmd.Visible = true;
-                
+                designer.Visible = true;
+                pageclient.Visible = true;
             }
         }
 
         private void statistiques_Click(object sender, EventArgs e)
         {
-            Page_Statistiques stats = new Page_Statistiques();
+            Page_Statistiques stats = new Page_Statistiques(); ///accès à la page statisiques
             stats.Show();
         }
 
         private void etat_cmd_Click(object sender, EventArgs e)
         {
-            Etat_commandes etat_Commandes = new Etat_commandes();
+            Etat_commandes etat_Commandes = new Etat_commandes(); ///accès à la pag état des commandes
             etat_Commandes.Show();
+        }
+
+        private void box_lieu_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Lieu.Text = box_lieu.SelectedItem.ToString(); /// possibilité de changer le magasin ou est effectué la commande
+        }
+
+        private void designer_Click(object sender, EventArgs e)
+        {
+            Page_designer design = new Page_designer(); /// accès à la page designer
+            design.Show();
+        }
+
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            Page_designer client = new Page_designer(); /// accès à la page client
+            client.Show();
         }
     }
 }

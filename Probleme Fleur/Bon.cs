@@ -225,6 +225,7 @@ namespace Probleme_Fleur
             }
         }
         public string ID_mail { get; set; }
+        public string Magasin { get; set; }
         private void validation_Click(object sender, EventArgs e)
         {
             if(erreuradresse.Visible == true)
@@ -262,8 +263,9 @@ namespace Probleme_Fleur
                 string no_client = Commande($"select no_client from client where couriel = '{mail}'")[0..^1];
                 string nb_commande = Convert.ToInt32(Commande($"select count(*) from commande").Split(';')[0]).ToString("D6");
                 string no_commande = "BO" + nb_commande;
-                Commande("insert into commande (montant, no_commande ,adresse_livraison ,message ,date_livraison,date_commande,etat,no_client) " +
-                    $"values (null,'{no_commande}','{adresse_livraison}' ,'{message}' ,'{date_livraison}','{date_commande}','{etat}','{no_client}')");
+                string magasin = Magasin;
+                Commande("insert into commande (montant, no_commande ,adresse_livraison ,message ,date_livraison,date_commande,etat,no_client,magasin) " +
+                    $"values (null,'{no_commande}','{adresse_livraison}' ,'{message}' ,'{date_livraison}','{date_commande}','{etat}','{no_client}','{magasin}')");
 
                 ///commande standard
 
@@ -319,7 +321,7 @@ namespace Probleme_Fleur
 
                         if (sorte != "")
                         {
-                            no_bouquet += i.ToString("00");
+                            no_bouquet = no_commande + i.ToString("00");
                             Commande($"INSERT INTO bouquet(no_bouquet,no_commande,nom_bouquet,categorie,prix,nb_fleurs,sorte) VALUES('{no_bouquet}', '{no_commande}', '{bouquetselec}', '{categorie}', {Convert.ToString(prix).Replace(',', '.')}, null, '{sorte}');");
                             i++;
                         }

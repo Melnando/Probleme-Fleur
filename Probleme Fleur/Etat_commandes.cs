@@ -93,5 +93,74 @@ namespace Probleme_Fleur
         {
 
         }
+
+
+
+        /// auto jointure
+        private void LivrerMemeAdresse()
+        {
+            string connectionString = "SERVER=localhost;PORT=3306;DATABASE=fleurs;UID=root;PASSWORD=root;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            // auto jointure
+            string requete = "SELECT DISTINCT c1.no_commande, c1.adresse_livraison, c1.date_livraison FROM commande c1 INNER JOIN commande c2 ON c1.adresse_livraison = c2.adresse_livraison AND c1.no_commande != c2.no_commande and c1.date_livraison = c2.date_livraison;";
+
+            // Créer un objet MySqlDataAdapter avec la requête et la connexion
+            MySqlDataAdapter adapter = new MySqlDataAdapter(requete, connection);
+
+            // Créer un DataSet pour stocker les données
+            DataSet dataset = new DataSet();
+
+            // Remplir le DataSet avec les données de la table commande
+            adapter.Fill(dataset, "commande");
+
+            // Configurer le DataGridView pour afficher les données du DataSet
+            dataGridView1.DataSource = dataset.Tables["commande"];
+
+
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[1].ReadOnly = true;
+
+        }
+
+        private void etatcmd_Click(object sender, EventArgs e)
+        {
+            string connectionString = "SERVER=localhost;PORT=3306;DATABASE=fleurs;UID=root;PASSWORD=root;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            // Définir la requête SQL pour sélectionner toutes les colonnes de la table commande
+            string requete = "SELECT c.no_commande, c.date_commande, c.date_livraison, c.montant,GROUP_CONCAT(DISTINCT f.sorte SEPARATOR ', '), c.etat FROM commande c JOIN bouquet cb ON cb.no_commande = c.no_commande JOIN fleur f ON f.sorte = cb.sorte GROUP BY c.no_commande;";
+
+            // Créer un objet MySqlDataAdapter avec la requête et la connexion
+            MySqlDataAdapter adapter = new MySqlDataAdapter(requete, connection);
+
+            // Créer un DataSet pour stocker les données
+            DataSet dataset = new DataSet();
+
+            // Remplir le DataSet avec les données de la table commande
+            adapter.Fill(dataset, "commande");
+
+            // Configurer le DataGridView pour afficher les données du DataSet
+            dataGridView1.DataSource = dataset.Tables["commande"];
+
+            string nouveauNom = "fleurs";
+            int indexColonne = 4;
+
+            dataGridView1.Columns[indexColonne].HeaderText = nouveauNom;
+
+            dataGridView1.Columns[0].ReadOnly = true;
+            dataGridView1.Columns[1].ReadOnly = true;
+            dataGridView1.Columns[2].ReadOnly = true;
+            dataGridView1.Columns[3].ReadOnly = true;
+            dataGridView1.Columns[4].ReadOnly = true;
+
+
+        }
+
+        private void livraison_Click(object sender, EventArgs e)
+        {
+            LivrerMemeAdresse();
+        }
     }
 }

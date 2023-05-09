@@ -36,25 +36,29 @@ namespace Probleme_Fleur
 
         private void Inscription_Click(object sender, EventArgs e)
         {
+            ///récupération des infos client
           
-            string nom = Convert.ToString(box_nom.Text);
+            string nom = box_nom.Text;
 
-            string prenom = Convert.ToString(box_prenom.Text);
+            string prenom = box_prenom.Text;
 
-            string tel = Convert.ToString(box_tel.Text);
+            string tel = box_tel.Text;
 
-            string mdp = Convert.ToString(box_mdp.Text);
+            string mdp = box_mdp.Text;
 
-            string adresse = Convert.ToString(box_adresse.Text);
+            string adresse = box_adresse.Text;
 
-            string CB = Convert.ToString(box_CB.Text);
+            string CB = box_CB.Text;
 
-            string mail = Convert.ToString(box_mail.Text);
+            string mail = box_mail.Text;
+
+            /// on véifie si le couriel n'est pas déjà utilisé
 
             string verif = Commande($"SELECT COUNT(*) FROM client WHERE couriel = '{mail}'");
 
             if (Convert.ToInt32(verif.Split(';')[0]) == 0)
             {
+                /// inscription dans la base de donnée
                 Inscription_BDD(nom, prenom, tel, mdp, adresse, CB, mail);
                 this.Close();
             }
@@ -69,7 +73,7 @@ namespace Probleme_Fleur
 
         private void nom_TextChanged(object sender, EventArgs e)
         {
-
+            /// élimination des caractères spéciaux
             string nom = box_nom.Text;
             if (nom == "" || nom.Any(char.IsDigit) || forbiddenChars.Any(c => nom.Contains(c)))
             {
@@ -119,13 +123,14 @@ namespace Probleme_Fleur
         static string CreationCodeClient()
         {
             string[] nbclient = Commande("select count(*) from client").Split(';');
+            /// ex code client : C0
             string noclient = "C" + Convert.ToString(Convert.ToInt32(nbclient[0])+1);
             return noclient;
         }
         private void box_prenom_TextChanged(object sender, EventArgs e)
         {
             string prenom = box_prenom.Text;
-            if (prenom == "" || prenom.Any(char.IsDigit) || forbiddenChars.Any(c => prenom.Contains(c)))
+            if (prenom == "" || prenom.Any(char.IsDigit) || forbiddenChars.Any(c => prenom.Contains(c))) ///on élimine les caractères spéciaux et nombres
             {
                 erreurprenom.Visible = true;
             }
@@ -135,7 +140,7 @@ namespace Probleme_Fleur
         private void box_tel_TextChanged(object sender, EventArgs e)
         {
             string tel = box_tel.Text;
-            if (tel.Length != 10 || !Regex.IsMatch(tel, "^[0-9]+$"))
+            if (tel.Length != 10 || !Regex.IsMatch(tel, "^[0-9]+$")) ///utilisation des expressions régulières pour limitet la saisie à 10 chiffres entre 0 et 9
             {
                 erreurtel.Visible = true;
             }
@@ -146,7 +151,7 @@ namespace Probleme_Fleur
         {
             erreurmail.Text = "format incorrect";
             string mail = box_mail.Text;
-            if (!Regex.IsMatch(mail, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"))
+            if (!Regex.IsMatch(mail, @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")) /// utilisation des expressions régulières pour vérifier si l'adresse mail à le bon format
             {
                 erreurmail.Visible = true;
             }
@@ -156,7 +161,7 @@ namespace Probleme_Fleur
         private void box_mdp_TextChanged(object sender, EventArgs e)
         {
             string mdp = box_mdp.Text;
-            if (mdp.Length < 7)
+            if (mdp.Length < 7) /// le mdp doit être supérieur à 7 caractères
             {
                 erreurmdp.Visible = true;
             }
@@ -166,7 +171,7 @@ namespace Probleme_Fleur
         private void box_CB_TextChanged(object sender, EventArgs e)
         {
             string cb = box_CB.Text;
-            if (cb.Length != 16 || !Regex.IsMatch(cb, "^[0-9]+$"))
+            if (cb.Length != 16 || !Regex.IsMatch(cb, "^[0-9]+$")) /// le numéro de carte est à 16 chiffres.
             {
                 erreurCB.Visible = true;
             }

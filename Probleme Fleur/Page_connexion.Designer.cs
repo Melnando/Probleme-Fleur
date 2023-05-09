@@ -42,6 +42,10 @@ namespace Probleme_Fleur
             this.mdp_admin = new System.Windows.Forms.TextBox();
             this.statistiques = new System.Windows.Forms.Button();
             this.etat_cmd = new System.Windows.Forms.Button();
+            this.Lieu = new System.Windows.Forms.LinkLabel();
+            this.box_lieu = new System.Windows.Forms.ComboBox();
+            this.designer = new System.Windows.Forms.Button();
+            this.pageclient = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Inscription
@@ -168,11 +172,55 @@ namespace Probleme_Fleur
             this.etat_cmd.UseVisualStyleBackColor = true;
             this.etat_cmd.Click += new System.EventHandler(this.etat_cmd_Click);
             // 
+            // Lieu
+            // 
+            this.Lieu.AutoSize = true;
+            this.Lieu.Location = new System.Drawing.Point(12, 421);
+            this.Lieu.Name = "Lieu";
+            this.Lieu.Size = new System.Drawing.Size(30, 20);
+            this.Lieu.TabIndex = 13;
+            this.Lieu.TabStop = true;
+            this.Lieu.Text = "M1";
+            // 
+            // box_lieu
+            // 
+            this.box_lieu.FormattingEnabled = true;
+            this.box_lieu.Location = new System.Drawing.Point(12, 390);
+            this.box_lieu.Name = "box_lieu";
+            this.box_lieu.Size = new System.Drawing.Size(151, 28);
+            this.box_lieu.TabIndex = 14;
+            this.box_lieu.Text = "Magasin";
+            this.box_lieu.SelectedIndexChanged += new System.EventHandler(this.box_lieu_SelectedIndexChanged);
+            // 
+            // designer
+            // 
+            this.designer.Location = new System.Drawing.Point(12, 136);
+            this.designer.Name = "designer";
+            this.designer.Size = new System.Drawing.Size(158, 29);
+            this.designer.TabIndex = 15;
+            this.designer.Text = "Designer";
+            this.designer.UseVisualStyleBackColor = true;
+            this.designer.Click += new System.EventHandler(this.designer_Click);
+            // 
+            // pageclient
+            // 
+            this.pageclient.Location = new System.Drawing.Point(12, 171);
+            this.pageclient.Name = "pageclient";
+            this.pageclient.Size = new System.Drawing.Size(158, 29);
+            this.pageclient.TabIndex = 16;
+            this.pageclient.Text = "Clients";
+            this.pageclient.UseVisualStyleBackColor = true;
+            this.pageclient.Click += new System.EventHandler(this.button1_Click_2);
+            // 
             // Page_connexion
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.pageclient);
+            this.Controls.Add(this.designer);
+            this.Controls.Add(this.box_lieu);
+            this.Controls.Add(this.Lieu);
             this.Controls.Add(this.etat_cmd);
             this.Controls.Add(this.statistiques);
             this.Controls.Add(this.mdp_admin);
@@ -209,6 +257,10 @@ namespace Probleme_Fleur
         private System.Windows.Forms.TextBox mdp_admin;
         private System.Windows.Forms.Button statistiques;
         private System.Windows.Forms.Button etat_cmd;
+        private System.Windows.Forms.LinkLabel Lieu;
+        private System.Windows.Forms.ComboBox box_lieu;
+        private System.Windows.Forms.Button designer;
+        private System.Windows.Forms.Button pageclient;
     }
 }
 

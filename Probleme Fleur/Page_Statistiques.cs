@@ -30,6 +30,9 @@ namespace Probleme_Fleur
             comboBox1.Items.Add("Client de l'année");
             comboBox1.Items.Add("Bouquet standard le plus vendu");
             comboBox1.Items.Add("Fleur la moins vendue");
+            comboBox1.Items.Add("Part de fidélité");
+            comboBox1.Items.Add("Part des commandes selon statut");
+            comboBox1.Items.Add("Meilleur magasin");
         }
 
         private void Page_Statistiques_Load(object sender, EventArgs e)
@@ -86,6 +89,18 @@ namespace Probleme_Fleur
                 label1.Text = bestclient[0..^1];
 
             }
+            else if(comboBox1.SelectedItem == "Part de fidélité")
+            {
+                label1.Text = PourcentageFidelite();
+            }
+            else if (comboBox1.SelectedItem == "Part des commandes selon statut")
+            {
+                label1.Text = PourcentageCommande();
+            }
+            else if (comboBox1.SelectedItem == "Meilleur magasin")
+            {
+                label1.Text = bestMagasin();
+            }
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -133,6 +148,18 @@ namespace Probleme_Fleur
                     worstfleur += nom + " ";
                 }
                 label1.Text = worstfleur[0..^1];
+            }
+            else if (comboBox1.SelectedItem == "Part de fidélité")
+            {
+                label1.Text = PourcentageFidelite();
+            }
+            else if  (comboBox1.SelectedItem == "Part des commandes selon statut")
+            {
+                label1.Text = PourcentageCommande();
+            }
+            else if (comboBox1.SelectedItem == "Meilleur magasin")
+            {
+                label1.Text = bestMagasin();
             }
             label1.Visible = true;
         }
@@ -367,5 +394,39 @@ namespace Probleme_Fleur
         {
             exportJSON();
         }
+
+        ///requetes de ma conception
+        ///avec union
+        private string PourcentageFidelite()
+        {
+            string[] pourcentages = Commande("SELECT 'Or' AS categorie, COUNT(*) AS nombre_clients,round(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM client),2) AS pourcentage_total FROM client WHERE statut = 'or'"+'\n'+"UNION"+'\n'+
+                "SELECT 'Bronze' AS categorie, COUNT(*) AS nombre_clients, round(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM client),2) AS pourcentage_total FROM client WHERE statut = 'bronze'").Split(';');
+
+            string retour = "statut : " + pourcentages[0] + " nb : " + pourcentages[1] + " part : " + pourcentages[2] + '%' + '\n';
+            retour += "statut : " + pourcentages[3] + " nb : " + pourcentages[4] + " part : " + pourcentages[5] + '%' + '\n';
+            return retour;
+        }
+        /// requetes synchronisées
+        private string PourcentageCommande()
+        {
+            string[] tabpourcentages = Commande("SELECT " +
+                "ROUND((SELECT COUNT(*) FROM commande WHERE no_client IN (SELECT no_client FROM client WHERE statut = 'or')) * 100.0 / COUNT(*), 2) AS pourcentage_commandes_or, " +
+                "ROUND((SELECT COUNT(*) FROM commande WHERE no_client IN (SELECT no_client FROM client WHERE statut = 'bronze')) * 100.0 / COUNT(*), 2) AS pourcentage_commandes_bronze, " +
+                "ROUND((SELECT COUNT(*) FROM commande WHERE no_client IN (SELECT no_client FROM client WHERE statut IS NULL)) * 100.0 / COUNT(*), 2) AS pourcentage_commandes_null FROM commande;").Split(';');
+            string retour = "Or : " + tabpourcentages[0] + '%' + " Bronze : " + tabpourcentages[1] + '%' + " autres : " + tabpourcentages[2] + '%'; ;
+            return retour;
+        }
+
+        private string bestMagasin()
+        {
+            string[] CA = Commande("SELECT magasin, SUM(montant) AS chiffre_affaires FROM commande GROUP BY magasin HAVING SUM(montant) = (SELECT MAX(total) FROM(SELECT SUM(montant) AS total FROM commande GROUP BY magasin) as magasin_chiffre_affaires);").Split(';') ;
+            string retour = "";
+            foreach(string magasin in CA)
+            {
+                retour += magasin + '|';
+            }
+            return retour;
+        }
+
     }
 }
